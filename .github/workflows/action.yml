@@ -162,7 +162,7 @@ jobs:
         run: |
           RELEASE_DATE=$(date +'%Y-%m-%d')
           PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.0.3' }}"
-          ZIP_NAME="${{ env.PLUGIN_SLUG }}-${RELEASE_DATE}.zip"
+          ZIP_NAME="${{ env.PLUGIN_SLUG }}.zip"
 
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
           echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT

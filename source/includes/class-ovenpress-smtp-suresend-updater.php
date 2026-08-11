@@ -8,7 +8,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $ovenpress_smtp_suresend_update_checker = PucFactory::buildUpdateChecker(
     'https://github.com/baseapp/ovenpress_suresend/',
-    __FILE__,
+    OVENPRESS_SMTP_SURESEND_ROOT_PL,
     'ovenpress-smtp-suresend'
 );
 $ovenpress_smtp_suresend_update_checker->getVcsApi()->enableReleaseAssets();
