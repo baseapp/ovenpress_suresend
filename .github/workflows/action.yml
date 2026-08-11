@@ -8,7 +8,7 @@ on:
       wp_version:
         description: "WordPress version to test against"
         required: true
-        default: "7.0"
+        default: "7.0.2"
       plugin_version:
         description: "Plugin version to release"
         required: true
@@ -181,12 +181,12 @@ jobs:
 
       - name: Update README
         run: |
-          sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '7.0' }}/" README.md
+          sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '7.0.2' }}/" README.md
           sed -i "s/\*\*Stable tag:\*\* [0-9.]*/**Stable tag:** ${{ steps.versions.outputs.plugin_version }}/" README.md
           sed -i "s|/releases/download/[0-9.]*/ovenpress-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
 
           # Update README.txt
-          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '7.0' }}/" README.txt
+          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '7.0.2' }}/" README.txt
           sed -i "s/Stable tag: [0-9.]*/Stable tag: ${{ steps.versions.outputs.plugin_version }}/" README.txt
           sed -i "s|/releases/download/[0-9.]*/ovenpress-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.txt
 
@@ -200,7 +200,7 @@ jobs:
             🚀 OvenPress SMTP Suresend Release v${{ steps.versions.outputs.plugin_version }}
 
             Release Date: ${{ steps.versions.outputs.release_date }}
-            Tested with WordPress: ${{ github.event.inputs.wp_version || '7.0' }}
+            Tested with WordPress: ${{ github.event.inputs.wp_version || '7.0.2' }}
           draft: false
           prerelease: false
         env:
