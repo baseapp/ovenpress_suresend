@@ -13,7 +13,7 @@
  * @package           Ovenpress_Smtp_Suresend
  *
  * @wordpress-plugin
- * Plugin Name:       Ovenpress SMTP Suresend
+ * Plugin Name:       OvenPress SMTP Suresend
  * Plugin URI:        https://www.wpoven.com/plugins/ovenpress-smtp-suresend
  * Description:       Activate the SMTP plugin to secure your site's email delivery by configuring the SMTP server of your preferred mail service.
  * Version:           1.0.3
