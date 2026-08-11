@@ -22,10 +22,10 @@
  * @link       https://www.wpoven.com/plugins/
  * @since      1.0.0
  *
- * @package    Wpoven_Smtp_Suresend
+ * @package    Ovenpress_Smtp_Suresend
  */
 
 // If uninstall not called from WordPress, then exit.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+if (! defined('WP_UNINSTALL_PLUGIN')) {
 	exit;
 }

@@ -14,13 +14,7 @@
 
 ## Installing Net\_DNS2 ##
 
-You can download it directly from PEAR: http://pear.php.net/package/Net_DNS2
-
-```
-pear install Net_DNS2
-```
-
-Or you can require it directly via Composer: https://packagist.org/packages/pear/net_dns2
+You can require it directly via Composer: https://packagist.org/packages/pear/net_dns2
 
 ```
 composer require pear/net_dns2
@@ -30,7 +24,7 @@ Or download the source above.
 
 ## Requirements ##
 
-* PHP 5.4+
+* PHP 7.1+ (as of v1.5.5)
 * The PHP INI setting `mbstring.func_overload` equals 0, 1, 4, or 5.
 
 

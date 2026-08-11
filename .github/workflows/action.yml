@@ -8,19 +8,19 @@ on:
       wp_version:
         description: "WordPress version to test against"
         required: true
-        default: "6.9"
+        default: "7.0"
       plugin_version:
         description: "Plugin version to release"
         required: true
-        default: "1.0.2"
+        default: "1.0.3"
 
 env:
-  PLUGIN_SLUG: "wpoven-smtp-suresend"
+  PLUGIN_SLUG: "ovenpress-smtp-suresend"
   WP_PATH: /var/www/html
-  PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_suresend
+  PLUGIN_PATH: /var/www/html/wp-content/plugins/ovenpress_suresend
   WORDPRESS_URL: http://localhost
   ADMIN_USER: admin
-  ADMIN_PASSWORD: Wpoven@baseapp1
+  ADMIN_PASSWORD: Ovenpress@baseapp1
   ADMIN_EMAIL: admin@example.com
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.0"
+          php-version: "8.4.20"
           extensions: mbstring, xml, mysql
           coverage: none
 
@@ -90,7 +90,7 @@ jobs:
           sudo mkdir -p $PLUGIN_PATH
           # Clone the repository into a temporary directory
           TEMP_DIR=$(mktemp -d)
-          git clone https://github.com/baseapp/wpoven_suresend.git $TEMP_DIR
+          git clone https://github.com/baseapp/ovenpress_suresend.git $TEMP_DIR
           cd $TEMP_DIR
           git submodule init
           git submodule sync
@@ -105,8 +105,8 @@ jobs:
         id: plugin-check
         run: |
           cd $WP_PATH
-          wp plugin activate wpoven_suresend
-          wp plugin verify-checksums wpoven_suresend
+          wp plugin activate ovenpress_suresend
+          wp plugin verify-checksums ovenpress_suresend
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Run Plugin Check
@@ -118,6 +118,7 @@ jobs:
           exclude-files: |
             .gitignore
             .gitmodules
+            includes/class-ovenpress-smtp-suresend-updater.php
           exclude-directories: |
             includes/libraries/redux-framework
             includes/libraries/plugin-update-checker
@@ -129,7 +130,7 @@ jobs:
       - name: Verify Plugin Accessibility
         run: |
           SITE_URL="http://localhost"
-          PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=wpoven-smtp-suresend"
+          PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=ovenpress-smtp-suresend"
 
           MAIN_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
           SETTINGS_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$PLUGIN_SETTINGS_PAGE")
@@ -157,7 +158,7 @@ jobs:
         id: versions
         run: |
           RELEASE_DATE=$(date +'%Y-%m-%d')
-          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.0.2' }}"
+          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.0.3' }}"
           ZIP_NAME="${{ env.PLUGIN_SLUG }}-${RELEASE_DATE}.zip"
 
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
@@ -177,26 +178,26 @@ jobs:
 
       - name: Update README
         run: |
-          sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.md
+          sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '7.0' }}/" README.md
           sed -i "s/\*\*Stable tag:\*\* [0-9.]*/**Stable tag:** ${{ steps.versions.outputs.plugin_version }}/" README.md
-          sed -i "s|/releases/download/[0-9.]*/wpoven-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
+          sed -i "s|/releases/download/[0-9.]*/ovenpress-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
 
           # Update README.txt
-          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.txt
+          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '7.0' }}/" README.txt
           sed -i "s/Stable tag: [0-9.]*/Stable tag: ${{ steps.versions.outputs.plugin_version }}/" README.txt
-          sed -i "s|/releases/download/[0-9.]*/wpoven-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.txt
+          sed -i "s|/releases/download/[0-9.]*/ovenpress-smtp-suresend-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.txt
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ steps.versions.outputs.zip_name }}
           tag_name: ${{ steps.versions.outputs.plugin_version }}
-          name: "WPOven SMTP Suresend v${{ steps.versions.outputs.plugin_version }}"
+          name: "OvenPress SMTP Suresend v${{ steps.versions.outputs.plugin_version }}"
           body: |
-            🚀 WPOven SMTP Suresend Release v${{ steps.versions.outputs.plugin_version }}
+            🚀 OvenPress SMTP Suresend Release v${{ steps.versions.outputs.plugin_version }}
 
             Release Date: ${{ steps.versions.outputs.release_date }}
-            Tested with WordPress: ${{ github.event.inputs.wp_version || '6.6.2' }}
+            Tested with WordPress: ${{ github.event.inputs.wp_version || '7.0' }}
           draft: false
           prerelease: false
         env:
