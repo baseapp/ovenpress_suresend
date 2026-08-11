@@ -110,7 +110,7 @@ jobs:
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Run Plugin Check
-        uses: wordpress/plugin-check-action@v1
+        uses: wordpress/plugin-check-action@v1.1.8
         with:
           exclude-checks: |
             i18n_usage
