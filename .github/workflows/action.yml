@@ -110,8 +110,11 @@ jobs:
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Run Plugin Check
-        uses: wordpress/plugin-check-action@v1.1.8
+        uses: wordpress/plugin-check-action@v1.1.6
         with:
+          build-dir: ${{ env.PLUGIN_PATH }}
+          slug: ${{ env.PLUGIN_SLUG }}
+          wp-version: ${{ github.event.inputs.wp_version || 'latest' }}
           exclude-checks: |
             i18n_usage
             late_escaping
@@ -122,10 +125,10 @@ jobs:
           exclude-directories: |
             includes/libraries/redux-framework
             includes/libraries/plugin-update-checker
-        env:
-          PLUGIN_DIR: ${{ env.PLUGIN_PATH }}
-          PLUGIN_SLUG: ${{ env.PLUGIN_SLUG }}
-          WP_VERSION: ${{ github.event.inputs.wp_version || 'latest' }}
+        # env:
+        #   PLUGIN_DIR: ${{ env.PLUGIN_PATH }}
+        #   PLUGIN_SLUG: ${{ env.PLUGIN_SLUG }}
+        #   WP_VERSION: ${{ github.event.inputs.wp_version || 'latest' }}
 
       - name: Verify Plugin Accessibility
         run: |
